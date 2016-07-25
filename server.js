@@ -3,24 +3,25 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var decrypt = require('./decrypt');
+var decrypter = require('./decrypt');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('client'));
 
+var myDecrypter = decrypter();
 
 app.post('/decode', function(req, res){
   var toEncrypt = {
     encrypt: req.body.text,
     shift: req.body.shift,
   };
-  console.log(toEncrypt + 'poston kulso elott');
-  var decrypted = decrypt.textEncoder(toEncrypt);
-  console.log(decrypted + 'poston ');
-  res.json({ "status": "ok", "text": decrypted});
+  myDecrypter.textEncoder(toEncrypt, function(result){
+    res.json(result)
+  });
 });
+
 
 
 // decrypter.decryptText(toEncrypt)

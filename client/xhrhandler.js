@@ -16,7 +16,7 @@ var xhrhandler = (function() {
         console.log(JSON.parse(xhr.response));
       }
     };
-    xhr.send(data); //&& JSON.stringify(data));
+    xhr.send(data);
   }
   return {
     xhrRequest: xhrRequest,

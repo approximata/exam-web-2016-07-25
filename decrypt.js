@@ -1,34 +1,70 @@
 'use strict';
 
-function textEncoder(input) {
-  console.log(input.encrypt + input.shift + 'textEncoder');
-  var result = decodeEngie(input.encrypt, input.shift);
-  return result;
-}
 
+var decrypter = function(){
+  var abcLen = 26;
+  var abcStartC = 65;
+  var abcEndC = 90;
+  var abcStart = 97;
+  var abcEnd = 122;
 
+  var outOfBound = {
+    "status": "error",
+    "error": "Shift is out of bound"
+  };
 
-function decodeEngie(text, shift) {
-    if (shift < 0) {
-      return 'give me something else';
+  var inputMissing = {
+    "status": "error",
+    "error": "Missing input"
+  };
+
+  function checkText(text, shift) {
+    if (shift < -25 || shift > 25) {
+      return outOfBound;
     }
+    else if ((text ==='') || (shift ==='')) {
+      return inputMissing;
+    }
+    else {
+      return true;
+    }
+  }
+
+  function charMover(start, charCode, shift) {
+    return String.fromCharCode(((charCode - start - shift % abcLen) + abcLen) % abcLen + start);
+  }
+
+  function decodeEngie(text, shift) {
     var encodedText = '';
     for (var i = 0; i < text.length; i++) {
       var char = text[i];
       if (char.match(/[a-zA-Z]/)) {
         var charCode = text.charCodeAt(i);
-        if ((charCode >= 65) && (charCode <= 90)) {
-          char = String.fromCharCode(((charCode - 65 - shift % 26) + 26) % 26 + 65);
-        } else if ((charCode >= 97) && (charCode <= 122)) {
-          char =
-          String.fromCharCode(((charCode - 97 - shift % 26) + 26) % 26 + 97);
+        if ((charCode >= abcStart) && (charCode <= abcEnd)) {
+          char = charMover(abcStart, charCode, shift);
+        } else if ((charCode >= abcStartC) && (charCode <= abcEndC)) {
+          char = charMover(abcStartC, charCode, shift);
         }
       }
       encodedText += char;
     }
-  return encodedText;
-}
+    return { "status": "ok", "text": encodedText}
+  }
 
-module.exports = {
-  textEncoder : textEncoder,
-}
+
+  function textEncoder(input, callback) {
+    if (checkText(input.encrypt, input.shift)) {
+      callback(decodeEngie(input.encrypt, input.shift));
+    }
+    else {
+      callback(checkText(input.encrypt, input.shift));
+    }
+  }
+
+  return {
+    textEncoder: textEncoder,
+    decodeEngie: decodeEngie
+  }
+};
+
+module.exports = decrypter;

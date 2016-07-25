@@ -3,11 +3,10 @@
 /* global someFunction xhrhandler: true */
 
 var url = 'http://localhost:3000/decode/';
+var inputField = document.querySelector('.input');
+var inputShift = document.querySelector('.shift');
 
 var service = (function() {
-  var inputField = document.querySelector('.input');
-  var inputShift = document.querySelector('.shift');
-
 
   function dataToSend() {
     return JSON.stringify(
