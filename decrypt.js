@@ -51,7 +51,6 @@ var decrypter = function(){
     return { "status": "ok", "text": encodedText}
   }
 
-
   function textEncoder(input, callback) {
     if (checkText(input.encrypt, input.shift)) {
       callback(decodeEngie(input.encrypt, input.shift));
@@ -63,7 +62,9 @@ var decrypter = function(){
 
   return {
     textEncoder: textEncoder,
-    decodeEngie: decodeEngie
+    decodeEngie: decodeEngie,
+    checkText: checkText
+
   }
 };
 

@@ -31,6 +31,21 @@ test('test text with mixed characters', function (t) {
 });
 
 test('empty text test', function (t) {
-  t.deepEqual(myDecrypter.decodeEngie('', 3).error, ('Missing input'));
+  t.deepEqual(myDecrypter.checkText('', 3).error, ('Missing input'));
+  t.end();
+});
+
+test('empty shift test', function (t) {
+  t.deepEqual(myDecrypter.checkText('foo', '').error, ('Missing input'));
+  t.end();
+});
+
+test('out of boundn positive', function (t) {
+  t.deepEqual(myDecrypter.checkText('Ize', 67).error, ('Shift is out of bound'));
+  t.end();
+});
+
+test('out of boundn negative', function (t) {
+  t.deepEqual(myDecrypter.checkText('Ize', -32).error, ('Shift is out of bound'));
   t.end();
 });

@@ -18,37 +18,16 @@ app.post('/decode', function(req, res){
     shift: req.body.shift,
   };
   myDecrypter.textEncoder(toEncrypt, function(result){
-    res.json(result)
+    errorHandling(res, result);
   });
 });
 
-
-
-// decrypter.decryptText(toEncrypt)
-
-// app.delete('/meals/:id', function(req, res){
-//
-//   var newtodo = todolist.filter(function (e){
-//       return e.id !== +req.params.id
-//   });
-//
-//   var filtered = todolist.filter(function (e){
-//       if(e.id === +req.params.id){
-//         e.destroyed = true;
-//         todolist = newtodo;
-//         return e;
-//       }
-//   })[0];
-//   // res.json(filtered);
-//   errorHandling(res, filtered);
-// });
-//
-// function errorHandling(res, item) {
-//  if (item === undefined) {
-//    res.sendStatus(404);
-//  } else {
-//    res.json(item);
-//  }
-// }
+function errorHandling(res, result) {
+ if (result.error) {
+   res.status(400).json(result);
+ } else {
+   res.json(result);
+ }
+}
 
 app.listen(3000);

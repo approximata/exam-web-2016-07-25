@@ -13,7 +13,6 @@ var xhrhandler = (function() {
           return;
         }
         cb(JSON.parse(xhr.response));
-        console.log(JSON.parse(xhr.response));
       }
     };
     xhr.send(data);

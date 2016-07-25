@@ -17,13 +17,11 @@ var service = (function() {
   }
 
   function dataToSendCheck() {
-    console.log(dataToSend() + 'chack felett');
     return ((inputShift.value > 25 || inputShift.value < -25) || +
     (inputShift.value === '' || inputField.value === ''));
   }
 
   function manageRequest(callback) {
-    console.log(dataToSendCheck()+ 'managereqest');
     if(dataToSendCheck()){
       alert("Please give me a proper value");
       return manageRequest;
